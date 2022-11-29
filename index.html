@@ -88,7 +88,7 @@
                 listaUl.appendChild(li);
             });
             const somaTempo = ListaTarefas.reduce((acumulador, item) =>{
-                return acumulador + item.tempo;
+                return acumulador + Number(item.tempo);
             }, 0);
             tempoTotal.innerHTML = somaTempo;
             console.log(somaTempo);
