@@ -46,14 +46,15 @@
         ];
 
         function limpar() {
-            document.getElementById("tarefa").value = " "
-            document.getElementById("tempo").value = " "
+            document.getElementById("formtarefa").value = " "
+            document.getElementById("formtempo").value = " "
         }
 
         function addTarefa(tarefa) {
+            const addtarefa = document.getElementById("formtarefa").value
+            const addtempo = document.getElementById("formtempo").value
             ListaTarefas.push(tarefa);
             renderizarTarefas();
-
         }
 
         function removerTarefa(id) {
@@ -82,25 +83,34 @@
         function renderizarTarefas() {
             let listaUl = document.getElementById('listaUl');
             listaUl.innerHTML = '';
+
             ListaTarefas.map(tarefa => {
                 let li = document.createElement('li');
-                li.classList.add('my-3')
+                li.classList.add('my-4');
                 li.innerHTML = (tarefa.tarefa + " -- " + tarefa.tempo + " minutos para concluir");
-                if (tarefa.feita == false){
-                    console.log(tarefa.tarefa);
-                } else {
-                    console.log(tarefa.feita);
-                }
-                li.innerHTML += `   <button type="button"
+                if (tarefa.feita == false) {
+                    li.innerHTML += `   <button type="button"
                                 class="btn btn-sm btn-warning" 
                                 onclick="fazerTarefa(${tarefa.id}, this)">
                                 Fazer
                                 </button>`
-                li.innerHTML += `   <button type="button"
+                    li.innerHTML += `   <button type="button"
                                 class="btn btn-sm btn-danger" 
                                 onclick="removerTarefa(${tarefa.id})">
                                 Remover
                                 </button>`
+                } else {
+                    li.innerHTML += `   <button type="button"
+                                class="btn btn-sm btn-sucess" 
+                                onclick="fazerTarefa(${tarefa.id}, this)">
+                                  Desfazer
+                                </button>`
+                    li.innerHTML += `   <button type="button"
+                                class="btn btn-sm btn-danger" 
+                                onclick="removerTarefa(${tarefa.id})">
+                                Remover
+                                </button>`
+                }
                 listaUl.appendChild(li);
             });
             const somaTempo = ListaTarefas.reduce((acumulador, item) => {
@@ -108,7 +118,7 @@
             }, 0);
             tempoTotal.innerHTML = somaTempo;
             console.log(somaTempo);
-            limpar();   
+            limpar();
         }
 
         renderizarTarefas();
@@ -118,11 +128,12 @@
         btnAdicionar.addEventListener('click', function () {
             const tarefa = document.getElementById('formtarefa').value;
             const tempo = document.getElementById('formtempo').value;
+
             addTarefa({
                 id: ListaTarefas.length + 1,
                 tarefa: tarefa,
                 feita: false,
-                tempo: tempo
+                tempo: tempo,
             });
         })
     </script>
